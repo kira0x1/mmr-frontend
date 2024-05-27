@@ -1,0 +1,86 @@
+---
+interface IUser {
+	id: string;
+	displayName: string;
+	steamId: string;
+	lobbyId?: number;
+}
+
+const response = await fetch("http://localhost:8443/users");
+const data = await response.json();
+const { users }: { users: IUser[] } = data;
+---
+
+<table class="user-view">
+	<caption class="text-gradient">USERS</caption>
+	<tr class="headers">
+		<th>ID</th>
+		<th>Display Name</th>
+		<th>Lobby #</th>
+	</tr>
+	{
+		users.map((user) => {
+			return (
+				<tr>
+					<td class="id-data">{user.steamId}</td>
+					<td>{user.displayName}</td>
+					<td class="lobbyid-data">{user.lobbyId}</td>
+				</tr>
+			);
+		})
+	}
+</table>
+
+<style>
+	table > caption {
+		color: rgb(135, 178, 226);
+		font-size: 1.5rem;
+		margin-top: 50px;
+		margin-bottom: 5px;
+		font-weight: bold;
+	}
+
+	table {
+		margin: 20px auto;
+		border-collapse: collapse;
+		font-family: "poppins";
+	}
+
+	.headers > th {
+		font-size: 1.1rem;
+		/* border: 0px; */
+	}
+
+	th {
+		font-size: 1.25rem;
+	}
+
+	td {
+		color: #444;
+		font-size: 1rem;
+		max-width: 300px;
+		text-wrap: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		text-align: justify;
+	}
+
+	th,
+	td {
+		border: 1px solid rgb(184, 184, 184);
+		border-collapse: collapse;
+
+		padding-top: 10px;
+		padding-bottom: 10px;
+		padding-left: 20px;
+		padding-right: 12px;
+	}
+
+	.lobbyid-data {
+		text-align: center;
+	}
+
+	.id-data {
+		max-width: 100px;
+	}
+</style>
